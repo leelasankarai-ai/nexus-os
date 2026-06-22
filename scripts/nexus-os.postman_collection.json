@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "Nexus OS — Partner API",
+    "description": "API-first escrow + content verification for micro-influencer platforms.\n\n1. Create a partner to get an API key\n2. Create deals with payment links\n3. Verify creator content to release payouts\n4. Check fraud, reputation, and ledger\n\nSee QUICKSTART.md for the 5-minute integration guide.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "nexus-os"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "api_key", "value": "" },
+    { "key": "deal_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Register Partner",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set('api_key', json.api_key);",
+              "pm.collectionVariables.set('partner_id', json.partner_id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Your Partner Name\",\n  \"webhook_url\": \"https://your-webhook.com/hooks\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/v1/partners", "host": ["{{base_url}}"], "path": ["api", "v1", "partners"] }
+      }
+    },
+    {
+      "name": "2. Create Deal",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set('deal_id', json.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"partner_deal_id\": \"order-001\",\n  \"brand_phone\": \"+919999999999\",\n  \"brand_name\": \"Your Brand\",\n  \"creator_upi\": \"creator@paytm\",\n  \"creator_name\": \"Rahul\",\n  \"amount\": 50000,\n  \"content_type\": \"instagram_reel\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/v1/deals", "host": ["{{base_url}}"], "path": ["api", "v1", "deals"] }
+      }
+    },
+    {
+      "name": "3. Verify Content",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deal_id\": \"{{deal_id}}\",\n  \"content_url\": \"https://www.instagram.com/p/REEL_ID/\",\n  \"content_type\": \"instagram_reel\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/v1/verify", "host": ["{{base_url}}"], "path": ["api", "v1", "verify"] }
+      }
+    },
+    {
+      "name": "4. Check Fraud Risk",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "url": { "raw": "{{base_url}}/api/v1/fraud/check/creator@paytm", "host": ["{{base_url}}"], "path": ["api", "v1", "fraud", "check", "creator@paytm"] }
+      }
+    },
+    {
+      "name": "5. Check Creator Reputation",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "url": { "raw": "{{base_url}}/api/v1/reputation/creator@paytm", "host": ["{{base_url}}"], "path": ["api", "v1", "reputation", "creator@paytm"] }
+      }
+    },
+    {
+      "name": "6. View Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "url": { "raw": "{{base_url}}/api/v1/partners/dashboard", "host": ["{{base_url}}"], "path": ["api", "v1", "partners", "dashboard"] }
+      }
+    },
+    {
+      "name": "7. Check Ledger",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "url": { "raw": "{{base_url}}/api/v1/ledger", "host": ["{{base_url}}"], "path": ["api", "v1", "ledger"] }
+      }
+    },
+    {
+      "name": "8. List Deals",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "url": { "raw": "{{base_url}}/api/v1/deals", "host": ["{{base_url}}"], "path": ["api", "v1", "deals"] }
+      }
+    }
+  ]
+}

@@ -1,13 +1,35 @@
 # Nexus OS
 
-Hyper-local fintech platform connecting micro-influencers with local brands across India. Instant escrow-backed payouts, real-time campaign tracking, fraud-proof content verification.
-
-## Quick Start
+API-first escrow + content verification trust layer for micro-influencer platforms.
+Integrate in 5 minutes — create a deal, verify content, release payout.
 
 ```bash
 npm install
 npm run dev        # → http://localhost:3000
 ```
+
+## Partner Quickstart
+
+```bash
+# 1. Register → get API key
+curl -X POST http://localhost:3000/api/v1/partners \
+  -H "Content-Type: application/json" \
+  -d '{"name":"YourBrand"}'
+
+# 2. Create deal → get payment link
+curl -X POST http://localhost:3000/api/v1/deals \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"partner_deal_id":"order-1","brand_phone":"+919999999999","creator_upi":"creator@paytm","amount":50000,"content_type":"instagram_reel"}'
+
+# 3. Verify content → trigger payout
+curl -X POST http://localhost:3000/api/v1/verify \
+  -H "X-API-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"deal_id":"DEAL_ID","content_url":"https://instagr.am/p/REEL"}'
+```
+
+See [`QUICKSTART.md`](QUICKSTART.md) for the full guide, `scripts/integration-demo.ps1` (Windows) or `scripts/integration-demo.sh` (Linux/Mac) for an automated demo, and `scripts/nexus-os.postman_collection.json` for Postman.
 
 ## Demo Accounts
 
