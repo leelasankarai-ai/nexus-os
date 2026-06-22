@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+html, body {
+  padding: 0;
+  margin: 0;
+  background: #0a0a0f;
+  color: #e4e4ed;
+  font-family: 'Fira Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%);
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #2e2e4a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #5555aa; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(52, 211, 153, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(52, 211, 153, 0.6); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes escrow-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+@keyframes sparkline-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes glass-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+.animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-sparkline { animation: sparkline-pulse 1.5s ease-in-out infinite; }
+.animate-glass-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: glass-shimmer 3s ease-in-out infinite;
+}
+.escrow-progress { animation: escrow-progress linear forwards; }
+.animate-shimmer {
+  background: linear-gradient(90deg, #1a1a25 25%, #24243a 50%, #1a1a25 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.ledger-row-enter { animation: slide-up 0.3s ease-out forwards; }
+
+.separator { @apply border-t border-nexus-600/50 my-4; }
+.glass-card {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  @apply border border-slate-800 rounded-xl;
+}
+.glass-glow {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.08), 0 0 40px rgba(16, 185, 129, 0.04);
+}
+.glass-glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.08), 0 0 40px rgba(59, 130, 246, 0.04);
+}
+.glass-glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.08), 0 0 40px rgba(139, 92, 246, 0.04);
+}
+.metric-value { @apply font-mono font-bold tracking-tight; }
+.chip { @apply text-[10px] font-mono px-1.5 py-0.5 rounded bg-nexus-700/50 text-nexus-300; }
+
+.badge-escrow { @apply text-xs font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20; }
+.badge-active { @apply text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20; }
+.badge-pending { @apply text-xs font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20; }
+
+/* Focus visible for keyboard nav */
+*:focus-visible { outline: none; }
